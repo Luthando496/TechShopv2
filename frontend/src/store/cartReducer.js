@@ -16,13 +16,16 @@ const cartSlice = createSlice({
     reducers:{
         addToCart(state, action){
             const item = action.payload
-            const exist = state.items.find(p => p.id === item.id)
+            const existItem = state.items.find(p => p._id === item._id)
 
-            if(exist){
-                exist.qty++
-            }else{
-                state.items = [...state.items,item]
-            }
+            if (existItem) {
+                state.items = state.items.map((x) =>
+                  x._id === existItem._id ? item : x
+                );
+              } else {
+                state.items = [...state.items, item];
+              }
+
 
 
             state.itemsPrice = addDecimals(state.items.reduce((acc, item) =>  item.price * item.qty,0))
@@ -40,18 +43,18 @@ const cartSlice = createSlice({
                 Number(state.taxPrice)
             ).toFixed(2);
         
-            localStorage.setItem('cart',JSON.stringify(state))
+            localStorage.setItem('cart',JSON.stringify(state.items))
 
         },
         removeItem(state, action){
-            const id = action.payload
-            const exist = state.items.find(p => p.id === id)
-            if(exist.quantity === 1){
-                state.items = state.items.filter(item => item.id !== id)
+            // const id = action.payload
+            // const exist = state.items.find(p => p.id === id)
+            // if(exist.quantity === 1){
+                state.items = state.items.filter(item => item._id !== action.payload)
 
-            }else{
-                exist.quantity--
-            }
+            // }else{
+            //     exist.quantity--
+            // }
         },
         // addQty(state, action){}
 

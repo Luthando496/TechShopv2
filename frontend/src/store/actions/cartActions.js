@@ -5,3 +5,10 @@ export const addCart =(product)=>{
         dispatch(cartAction.addToCart(product))
     }
 }
+
+
+export const removeCart =(product)=>{
+    return dispatch=>{
+        dispatch(cartAction.removeItem(product))
+    }
+}
