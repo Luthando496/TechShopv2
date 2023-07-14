@@ -12,3 +12,11 @@ export const removeCart =(product)=>{
         dispatch(cartAction.removeItem(product))
     }
 }
+
+
+
+export const saveShipping =(product)=>{
+    return dispatch=>{
+        dispatch(cartAction.saveShippingAddress(product))
+    }
+}

@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 import {updateCart} from '../utils/cartUtils'
 
 const cartStore = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) :[]
+const shipStore = localStorage.getItem('ship') ? JSON.parse(localStorage.getItem('ship')) :{}
 
 
 
@@ -12,7 +13,7 @@ const addDecimals =(number)=>{
 
 const cartSlice = createSlice({
     name:'cart',
-    initialState:{items:cartStore,itemsPrice:0,shippingPrice:0,taxPrice:0,totalPrice:0,shippingAddress:{},PaymentMethod:'PayPal'},
+    initialState:{items:cartStore,itemsPrice:0,shippingPrice:0,taxPrice:0,totalPrice:0,shippingAddress:shipStore,PaymentMethod:'PayPal'},
     reducers:{
         addToCart(state, action){
             const item = action.payload
@@ -28,17 +29,30 @@ const cartSlice = createSlice({
 
 
 
-              updateCart(state)
+            state.itemsPrice = addDecimals(state.items.reduce((acc, item) =>  item.price * item.qty,0))
+
+              // shipping price
+            state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
+          
+              // Calculate the tax price
+              state.taxPrice = addDecimals(Number((0.15 * state.itemsPrice).toFixed(2)));
+          
+              // Calculate the total price
+              state.totalPrice = (
+                  Number(state.itemsPrice) +
+                  Number(state.shippingPrice) +
+                  Number(state.taxPrice)
+              ).toFixed(2);
         
             localStorage.setItem('cart',JSON.stringify(state.items))
-
+            
         },
         removeItem(state, action){
             // const id = action.payload
             // const exist = state.items.find(p => p.id === id)
             // if(exist.quantity === 1){
                 state.items = state.items.filter(item => item._id !== action.payload)
-
+                
                 localStorage.setItem('cart',JSON.stringify(state.items))
 
             // }else{
@@ -47,7 +61,22 @@ const cartSlice = createSlice({
         },
         saveShippingAddress(state, action){
             state.shippingAddress = action.payload
-            return updateCart(state)
+            state.itemsPrice = addDecimals(state.items.reduce((acc, item) =>  item.price * item.qty,0))
+            
+            // shipping price
+            state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
+
+            // Calculate the tax price
+            state.taxPrice = addDecimals(Number((0.15 * state.itemsPrice).toFixed(2)));
+
+            // Calculate the total price
+            state.totalPrice = (
+                Number(state.itemsPrice) +
+                Number(state.shippingPrice) +
+                Number(state.taxPrice)
+                ).toFixed(2);
+            localStorage.setItem('ship',JSON.stringify(state.shippingAddress))
+                
         },
         // addQty(state, action){}
 
