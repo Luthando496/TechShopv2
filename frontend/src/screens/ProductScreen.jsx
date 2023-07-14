@@ -5,6 +5,7 @@ import Rating from '../components/Rating'
 import {singleProduct} from '../store/actions/productActions.js'
 import {useDispatch,useSelector} from 'react-redux'
 import {addCart} from '../store/actions/cartActions.js'
+import Loader from '../components/Loader'
 // add
 
 const ProductScreen = () => {
@@ -13,7 +14,8 @@ const ProductScreen = () => {
     const navigate = useNavigate()
     const [qty,setQty] = useState(1)
 
-    const product = useSelector(state => state.prod.products)
+    const product= useSelector(state => state.prod.products)
+    const {loading,error}= useSelector(state => state.prod.products)
   const dispatch = useDispatch()
 
   const addToCartHandler =()=>{
@@ -32,8 +34,8 @@ const ProductScreen = () => {
         <Link to='/' className="btn btn-light my-3">
             Go Back
         </Link>
-
-        <Row>
+        {loading ? (<Loader />) : error ? <h1>{error?.data?.message}</h1> : (
+            <Row>
             <Col md={5}>
                 <Image src={product.image} alt={product.name} fluid />
             </Col>
@@ -99,6 +101,8 @@ const ProductScreen = () => {
             </Card>
             </Col>
         </Row>
+        )}
+        
     </>
   )
 }

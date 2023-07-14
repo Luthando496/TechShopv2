@@ -9,7 +9,6 @@ const productSlice = createSlice({
     initialState:{products:[],loading:false,error:null },
     reducers:{
         allProductsRequest(state, action){
-            state.products =[]
             state.loading =true
         },
         ProductsSuccess(state, action){

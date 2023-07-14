@@ -6,6 +6,7 @@ import axios from 'axios'
 export const getProducts = () =>
     async dispatch =>{
         try{
+            dispatch(productAction.allProductsRequest())
             const {data} = await axios.get(PRODUCTS_URL)
 
             dispatch(productAction.ProductsSuccess(data))
@@ -18,8 +19,9 @@ export const getProducts = () =>
 
 
 export const singleProduct = (id) =>
-    async dispatch =>{
-        try{
+async dispatch =>{
+    try{
+            dispatch(productAction.allProductsRequest())
             const {data} = await axios.get(`${PRODUCTS_URL}/${id}`)
 
             dispatch(productAction.ProductsSuccess(data))
