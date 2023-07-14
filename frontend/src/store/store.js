@@ -1,5 +1,6 @@
 import {configureStore,createSlice} from '@reduxjs/toolkit';
 import {cartReducer} from './cartReducer'
+import {userReducer} from './userReducer'
 
 
 
@@ -42,7 +43,7 @@ const store = configureStore({
         prod:productSlice.reducer,
         cart:cartReducer,
     //     det:productDetailsSlice.reducer,
-    //     auth:authReducer.reducer,
+        user:userReducer,
     //     ship:ShipReducer
     }
 })
