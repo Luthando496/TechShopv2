@@ -20,3 +20,10 @@ export const saveShipping =(product)=>{
         dispatch(cartAction.saveShippingAddress(product))
     }
 }
+
+
+export const payment =(product)=>{
+    return dispatch=>{
+        dispatch(cartAction.savePaymentMethod(product))
+    }
+}
