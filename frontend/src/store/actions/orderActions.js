@@ -4,7 +4,7 @@ import {ORDERS_URL} from '../../constants'
 
 export const createOrder =( order)=> async (dispatch) => {
     dispatch(orderAction.RequestOrder())
-    console.log(order)
+    // console.log(order)
 
     try{
         const {data} = await axios.post(ORDERS_URL,order)
@@ -12,8 +12,8 @@ export const createOrder =( order)=> async (dispatch) => {
         dispatch(orderAction.createOrder(data))
 
     }catch(error){
-        console.log(error)
-        dispatch(orderAction.FailOrder(error))
+        console.log(error?.response?.data?.message)
+        dispatch(orderAction.FailOrder(error?.response?.data?.message))
     }
 
 }

@@ -6,7 +6,7 @@ import CheckoutSteps from '../components/CheckoutSteps'
 import { Notyf } from 'notyf';
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import {clearCart} from '../store/actions/cartActions'
+import {clearCartItems} from '../store/actions/cartActions'
 import {createOrder} from '../store/actions/orderActions'
 
 
@@ -14,7 +14,7 @@ const PlaceholderScreen = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const cart = useSelector(state => state.cart)
-    const {loading,error} = useSelector(state => state.order)
+    const {loading,error,orders} = useSelector(state => state.order)
     const notyf = new Notyf({position:{
         x: 'center',
         y: 'top'
@@ -28,19 +28,23 @@ const PlaceholderScreen = () => {
         }else if(!cart.PaymentMethod){
             navigate('/payment')
         }
-    },[cart.shippingAddress,cart.PaymentMethod,navigate])
+
+        if(orders?.user){
+            navigate(`/order/${orders._id}`)
+        }
+    },[cart.shippingAddress,cart.PaymentMethod,navigate,orders])
 
         const placeOrderHandler = ()=>{
             try{
                 dispatch(createOrder({orderItems:cart.items,shippingAddress:cart.shippingAddress,paymentMethod:cart.PaymentMethod,shippingPrice:cart.shippingPrice,totalPrice:cart.totalPrice,itemsPrice:cart.itemsPrice,taxPrice:cart.taxPrice}))
-                // dispatch(clearCart())
                 notyf.success('order created')
+                dispatch(clearCartItems())
 
 
-
-                // navigate(`/order/`)
             }catch(error){
-                console.log(error?.response?.message)
+                console.log(error?.response?.data?.message)
+                notyf.error(error)
+
             }
 
         }
