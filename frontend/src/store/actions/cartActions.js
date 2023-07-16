@@ -22,6 +22,13 @@ export const saveShipping =(product)=>{
 }
 
 
+export const clearCartItems =(product)=>{
+    return dispatch=>{
+        dispatch(cartAction.clearCart())
+    }
+}
+
+
 export const payment =(product)=>{
     return dispatch=>{
         dispatch(cartAction.savePaymentMethod(product))

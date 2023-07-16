@@ -94,6 +94,15 @@ const cartSlice = createSlice({
                 Number(state.shippingPrice) +
                 Number(state.taxPrice)
                 ).toFixed(2);
+                localStorage.setItem('pay',JSON.stringify(state.PaymentMethod))
+        
+        },
+        clearCart(state,action){
+          state.items = []
+          localStorage.removeItem('cart')
+          state.itemsPrice = 0
+          state.shippingPrice = 0
+          
         }
         // addQty(state, action){}
 

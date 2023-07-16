@@ -1,7 +1,7 @@
 import {configureStore,createSlice} from '@reduxjs/toolkit';
 import {cartReducer} from './cartReducer'
 import {userReducer} from './userReducer'
-
+import {orderReducer} from './orderReducer'
 
 
 
@@ -42,9 +42,8 @@ const store = configureStore({
     reducer:{
         prod:productSlice.reducer,
         cart:cartReducer,
-    //     det:productDetailsSlice.reducer,
         user:userReducer,
-    //     ship:ShipReducer
+        order:orderReducer
     }
 })
 

@@ -6,6 +6,7 @@ import cookieparser from 'cookie-parser'
 import productRoutes from './Routes/ProductRoutes.js'
 import db from './config/db.js'
 import userRoutes from './Routes/userRoutes.js'
+import orderRoutes from './Routes/OrderRoutes.js'
 import {notFound,errorHandler} from './middleware/errorMiddleware.js'
 
 
@@ -33,6 +34,7 @@ app.use(morgan('dev'))
 
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/orders', orderRoutes)
 
 
 app.use(notFound)
